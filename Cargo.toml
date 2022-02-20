@@ -1,0 +1,19 @@
+[workspace]
+members = ["binde_derive"]
+
+[package]
+name = "binde"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ojas Landge <stackdoubleflow@gmail.com>"]
+license = "MIT"
+description = "A crate for deserialiazing binary structures with ease"
+homepage = "https://github.com/StackDoubleFlow/binde/"
+repository = "https://github.com/StackDoubleFlow/binde/"
+keywords = ["binary", "deserialize"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+binde_derive = { version = "0.1", path = "./binde_derive" }
+byteorder = "1"

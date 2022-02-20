@@ -1,0 +1,19 @@
+[package]
+name = "binde_derive"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ojas Landge <stackdoubleflow@gmail.com>"]
+license = "MIT"
+description = "A crate for deserialiazing binary structures with ease"
+homepage = "https://github.com/StackDoubleFlow/binde/"
+repository = "https://github.com/StackDoubleFlow/binde/"
+keywords = ["binary", "deserialize"]
+
+[lib]
+proc_macro = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+syn = { version = "1", features = ["full", "extra-traits"] }
+quote = "1"
