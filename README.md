@@ -21,7 +21,7 @@ struct CoolStructure {
 }
 
 fn main() {
-    assert_eq!(CoolStructure::SIZE, 3);
+    assert_eq!(binde::size_of::<CoolStructure>(), 3)
 
     let cursor = Cursor::new([0xDF, 0x27, 0x95]);
     let cool_structure: CoolStructure = deserialize::<LittleEndian, _, _>(cursor).unwrap();

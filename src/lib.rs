@@ -30,6 +30,20 @@ where
     T::deserialize::<E, R>(reader)
 }
 
+/// Get the number of bytes consumed by `deserialize`
+/// 
+/// # Example
+/// ```rust
+/// use binde::BinaryDeserialize;
+/// 
+/// #[derive(BinaryDeserialize)]
+/// struct CoolStructure {
+///     a: u16,
+///     b: i8,
+/// }
+///
+/// assert_eq!(binde::size_of::<CoolStructure>(), 3)
+/// ```
 pub fn size_of<T>() -> usize
 where
     T: BinaryDeserialize,
@@ -38,8 +52,26 @@ where
 }
 
 pub trait BinaryDeserialize: Sized {
+    /// The number of bytes consumed by `deserialize`
     const SIZE: usize;
 
+    /// Deserialize a binary structure
+    ///
+    /// # Example
+    /// ```rust
+    /// use binde::{BinaryDeserialize, LittleEndian};
+    /// use std::io::Cursor;
+    ///
+    /// #[derive(BinaryDeserialize, Debug, PartialEq, Eq)]
+    /// struct CoolStructure {
+    ///     a: u16,
+    ///     b: i8,
+    /// }
+    ///
+    /// let cursor = Cursor::new([0xDF, 0x27, 0x95]);
+    /// let cool_structure = CoolStructure::deserialize::<LittleEndian, _>(cursor).unwrap();
+    /// assert_eq!(cool_structure, CoolStructure { a: 10207, b: -107 })
+    /// ```
     fn deserialize<E, R>(reader: R) -> Result<Self>
     where
         E: ByteOrder,
