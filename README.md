@@ -5,7 +5,7 @@ A crate for deserialiazing binary structures with ease.
 Heads Up! This is a very experimental library with no support for alignment and little documentation; use with caution.
 
 ```toml
-binde = "0.1"
+binde = { git = "https://github.com/StackDoubleFlow/binde" }
 ```
 
 # Example
