@@ -31,11 +31,11 @@ where
 }
 
 /// Get the number of bytes consumed by `deserialize`
-/// 
+///
 /// # Example
 /// ```rust
 /// use binde::BinaryDeserialize;
-/// 
+///
 /// #[derive(BinaryDeserialize)]
 /// struct CoolStructure {
 ///     a: u16,
@@ -78,6 +78,7 @@ pub trait BinaryDeserialize: Sized {
         R: Read;
 }
 
+/// Create deserialize implementation ignoring endianness
 macro_rules! impl_byte_deserialize {
     ($ty:ty, $size:literal, $read_fn:ident) => {
         impl BinaryDeserialize for $ty {
@@ -120,3 +121,23 @@ impl_primitive_deserialize!(u64, 8, read_u64);
 impl_primitive_deserialize!(i64, 8, read_i64);
 impl_primitive_deserialize!(u128, 16, read_u128);
 impl_primitive_deserialize!(i128, 16, read_i128);
+
+impl<T, const S: usize> BinaryDeserialize for [T; S]
+where
+    T: BinaryDeserialize,
+{
+    const SIZE: usize = T::SIZE * S;
+
+    fn deserialize<E, R>(mut reader: R) -> Result<Self>
+    where
+        E: ByteOrder,
+        R: Read,
+    {
+        Ok((0..S)
+            .map(|_| T::deserialize::<E, &mut R>(&mut reader))
+            .collect::<Result<Vec<T>>>()?
+            .try_into()
+            .map_err(|_| ())
+            .unwrap())
+    }
+}
